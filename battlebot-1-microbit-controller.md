@@ -8,9 +8,19 @@ pxt-kitronik-move-motor=github:kitronikltd/pxt-kitronik-move-motor#v0.4.20
 ```
 
 ```template
+let REVERSE = 0
+let FORWARD = 0
+let STOP = 0
+let SPIN_RIGHT = 0
+let SPIN_LEFT = 0
 let channel = ""
 channel = "duck"
 radio.setGroup(101)
+SPIN_LEFT = 0
+SPIN_RIGHT = 1
+STOP = 2
+FORWARD = 3
+REVERSE = 4
 basic.showIcon(IconNames.Duck)
 ```
 
@@ -77,9 +87,19 @@ Open ``||Kitronik_Move_Motor:Move Motor||`` → **Lights**. Add ``||Kitronik_Mov
 The lights on top of your Move show your **team**: **red** or **blue**. Your teacher will tell you which. You don't need to make the variable — the block comes with it.
 
 ```blocks
+let REVERSE = 0
+let FORWARD = 0
+let STOP = 0
+let SPIN_RIGHT = 0
+let SPIN_LEFT = 0
 let channel = ""
 channel = "duck"
 radio.setGroup(101)
+SPIN_LEFT = 0
+SPIN_RIGHT = 1
+STOP = 2
+FORWARD = 3
+REVERSE = 4
 basic.showIcon(IconNames.Duck)
 let moveMotorZIP = Kitronik_Move_Motor.createMoveMotorZIPLED(4)
 moveMotorZIP.showColor(Kitronik_Move_Motor.colors(Kitronik_Move_Motor.ZipLedColors.Red))
@@ -90,15 +110,17 @@ A radio message is like an **envelope**:
 - On the **front** is a **name** — who it's for
 - **Inside** is a **value** — a number for what to do
 
-| Value | Move |
+| Value | Name in your code |
 |---|---|
-| 0 | Spin left |
-| 1 | Spin right |
-| 2 | Stop |
-| 3 | Forward |
-| 4 | Reverse |
+| 0 | SPIN_LEFT |
+| 1 | SPIN_RIGHT |
+| 2 | STOP |
+| 3 | FORWARD |
+| 4 | REVERSE |
 
 So **duck** on the front with **3** inside means: *"duck, go forward!"*
+
+You don't have to remember the numbers. Your code already has a **name** for each one, like ``||variables:FORWARD||`` = 3. Use the names, and the code reads like English.
 
 Your robot will check the name, then read the number.
 
@@ -166,30 +188,30 @@ radio.onReceivedValue(function (name, value) {
 ```
 
 ## Step 10: Check the Number
-Inside the name check, add another ``||logic:if||`` with the **number** comparison ``||logic:0 = 0||``. Drag ``||variables:value||`` off the radio block into the left, and type **3** on the right.
+Inside the name check, add another ``||logic:if||`` with the **number** comparison ``||logic:0 = 0||``. Drag ``||variables:value||`` off the radio block into the left, and ``||variables:FORWARD||`` from ``||variables:Variables||`` into the right.
 
 #### ~ tutorialhint
-This time it's the comparison with **0** — the value inside is a **number**. ``||variables:value||`` comes off the top of the radio block, just like ``||variables:name||`` did.
+This time it's the comparison with **0** — the value inside is a **number**. ``||variables:FORWARD||`` is just a name for **3**, set up for you in ``||basic:on start||``.
 
 ```blocks
 radio.onReceivedValue(function (name, value) {
     if (name == channel) {
-        if (value == 3) {
+        if (value == FORWARD) {
         }
     }
 })
 ```
 
 ## Step 11: Forward
-Inside ``||logic:if value = 3||``, add ``||Kitronik_Move_Motor:move Forward at speed 50||``.
+Inside ``||logic:if value = FORWARD||``, add ``||Kitronik_Move_Motor:move Forward at speed 50||``.
 
 #### ~ tutorialhint
-**3** means forward. The envelope said "go forward", so the robot drives!
+The envelope said ``||variables:FORWARD||``, so the robot drives!
 
 ```blocks
 radio.onReceivedValue(function (name, value) {
     if (name == channel) {
-        if (value == 3) {
+        if (value == FORWARD) {
             Kitronik_Move_Motor.move(Kitronik_Move_Motor.DriveDirections.Forward, 50)
         }
     }
@@ -197,17 +219,17 @@ radio.onReceivedValue(function (name, value) {
 ```
 
 ## Step 12: Stop for Anything Else
-Click **+** once on the ``||logic:if value = 3||`` block. It adds an **else**. Put ``||Kitronik_Move_Motor:stop||`` inside it.
+Click **+** once on the ``||logic:if value = FORWARD||`` block. It adds an **else**. Put ``||Kitronik_Move_Motor:stop||`` inside it.
 
 #### ~ tutorialhint
-**else** means *"for any other number"*. So **2** means stop — and so does any number the robot doesn't know. That's a safe default!
+**else** means *"for any other number"*. So ``||variables:STOP||`` stops the robot — and so does any number it doesn't know. That's a safe default!
 
 Why no arrows on the screen? ``||basic:show arrow||`` takes half a second to draw, and the robot can't listen while it draws.
 
 ```blocks
 radio.onReceivedValue(function (name, value) {
     if (name == channel) {
-        if (value == 3) {
+        if (value == FORWARD) {
             Kitronik_Move_Motor.move(Kitronik_Move_Motor.DriveDirections.Forward, 50)
         } else {
             Kitronik_Move_Motor.stop()
@@ -217,7 +239,7 @@ radio.onReceivedValue(function (name, value) {
 ```
 
 ## Step 13: Spin Left
-Click **+** again. This adds an **else if** above the else. Make it ``||variables:value||`` **= 0** → ``||Kitronik_Move_Motor:spin Left at speed 20||``.
+Click **+** again. This adds an **else if** above the else. Make it ``||variables:value||`` **=** ``||variables:SPIN_LEFT||`` → ``||Kitronik_Move_Motor:spin Left at speed 20||``.
 
 #### ~ tutorialhint
 New **else if** branches always appear **above** the else. That's fine — the else stays last, catching everything else.
@@ -225,9 +247,9 @@ New **else if** branches always appear **above** the else. That's fine — the e
 ```blocks
 radio.onReceivedValue(function (name, value) {
     if (name == channel) {
-        if (value == 3) {
+        if (value == FORWARD) {
             Kitronik_Move_Motor.move(Kitronik_Move_Motor.DriveDirections.Forward, 50)
-        } else if (value == 0) {
+        } else if (value == SPIN_LEFT) {
             Kitronik_Move_Motor.spin(Kitronik_Move_Motor.SpinDirections.Left, 20)
         } else {
             Kitronik_Move_Motor.stop()
@@ -238,8 +260,8 @@ radio.onReceivedValue(function (name, value) {
 
 ## Step 14: Teach It the Rest
 Click **+** twice more for two more **else if** branches:
-- **1** → ``||Kitronik_Move_Motor:spin Right at speed 20||``
-- **4** → ``||Kitronik_Move_Motor:move Reverse at speed 50||``
+- ``||variables:SPIN_RIGHT||`` → ``||Kitronik_Move_Motor:spin Right at speed 20||``
+- ``||variables:REVERSE||`` → ``||Kitronik_Move_Motor:move Reverse at speed 50||``
 
 #### ~ tutorialhint
 Your remote can only send three moves, but teach the robot all five anyway. You'll need them in Battle Bot 2!
@@ -247,13 +269,13 @@ Your remote can only send three moves, but teach the robot all five anyway. You'
 ```blocks
 radio.onReceivedValue(function (name, value) {
     if (name == channel) {
-        if (value == 3) {
+        if (value == FORWARD) {
             Kitronik_Move_Motor.move(Kitronik_Move_Motor.DriveDirections.Forward, 50)
-        } else if (value == 0) {
+        } else if (value == SPIN_LEFT) {
             Kitronik_Move_Motor.spin(Kitronik_Move_Motor.SpinDirections.Left, 20)
-        } else if (value == 1) {
+        } else if (value == SPIN_RIGHT) {
             Kitronik_Move_Motor.spin(Kitronik_Move_Motor.SpinDirections.Right, 20)
-        } else if (value == 4) {
+        } else if (value == REVERSE) {
             Kitronik_Move_Motor.move(Kitronik_Move_Motor.DriveDirections.Reverse, 50)
         } else {
             Kitronik_Move_Motor.stop()
@@ -267,39 +289,39 @@ The robot part is done. Now the **remote**: making the envelopes.
 
 ``||radio:radio send value||`` has two spaces:
 - **First:** the **name** on the front — use ``||variables:channel||``
-- **Second:** the **value** inside — the move's number
+- **Second:** the **value** inside — the move, like ``||variables:FORWARD||``
 
 When the robot gets it, these arrive as ``||variables:name||`` and ``||variables:value||``.
 
 ## Step 15: Button A Goes Forward
-Add ``||input:on button A pressed||`` → ``||radio:radio send value||`` ``||variables:channel||`` **= 3**.
+Add ``||input:on button A pressed||`` → ``||radio:radio send value||`` ``||variables:channel||`` **=** ``||variables:FORWARD||``.
 
 #### ~ tutorialhint
-``||variables:channel||`` is in ``||variables:Variables||``. Drop it into the first space of the send block.
+``||variables:channel||`` and ``||variables:FORWARD||`` are both in ``||variables:Variables||``.
 
 ```blocks
 input.onButtonPressed(Button.A, function () {
-    radio.sendValue(channel, 3)
+    radio.sendValue(channel, FORWARD)
 })
 ```
 
 ## Step 16: Spin and Stop Buttons
 Add two more:
-- ``||input:on button B pressed||`` → send **0** (spin left)
-- ``||input:on button A+B pressed||`` → send **2** (stop)
+- ``||input:on button B pressed||`` → send ``||variables:SPIN_LEFT||``
+- ``||input:on button A+B pressed||`` → send ``||variables:STOP||``
 
 #### ~ tutorialhint
-Right-click your button A block and choose **Duplicate**, then change the button and the number.
+Right-click your button A block and choose **Duplicate**, then change the button and the move.
 
 ```blocks
 input.onButtonPressed(Button.A, function () {
-    radio.sendValue(channel, 3)
+    radio.sendValue(channel, FORWARD)
 })
 input.onButtonPressed(Button.B, function () {
-    radio.sendValue(channel, 0)
+    radio.sendValue(channel, SPIN_LEFT)
 })
 input.onButtonPressed(Button.AB, function () {
-    radio.sendValue(channel, 2)
+    radio.sendValue(channel, STOP)
 })
 ```
 
