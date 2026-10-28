@@ -13,7 +13,9 @@
         "battlebot-1-microbit-controller.md",
         "battlebot-3-robot.md",
         "battlebot-4-robot.md",
-        "test-hello.md"
+        "test-hello.md",
+        "test-nopkg.md",
+        "test-pkg.md"
     ],
     "testFiles": [
         "test.ts"
