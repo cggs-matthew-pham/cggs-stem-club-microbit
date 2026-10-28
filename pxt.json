@@ -15,7 +15,11 @@
         "battlebot-4-robot.md",
         "test-hello.md",
         "test-nopkg.md",
-        "test-pkg.md"
+        "test-pkg.md",
+        "test-a.md",
+        "test-b.md",
+        "test-c.md",
+        "test-d.md"
     ],
     "testFiles": [
         "test.ts"
