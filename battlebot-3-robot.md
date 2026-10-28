@@ -1,5 +1,10 @@
 # Battle Bot 3: Safety Stop (Robot)
 
+```package
+radio
+pxt-kitronik-move-motor=github:kitronikltd/pxt-kitronik-move-motor#v0.4.20
+```
+
 ```template
 let channel = ""
 channel = "duck"

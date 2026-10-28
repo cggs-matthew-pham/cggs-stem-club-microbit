@@ -1,5 +1,10 @@
 # Battle Bot 4: Battle Upgrades (Robot)
 
+```package
+radio
+pxt-kitronik-move-motor=github:kitronikltd/pxt-kitronik-move-motor#v0.4.20
+```
+
 ```template
 let lastHeard = 0
 let command = 0
