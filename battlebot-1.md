@@ -113,14 +113,50 @@ radio.onReceivedValue(function (name, value) {
 })
 ```
 
-## Step 6: Check the Name
-Inside it, add ``||logic:if||`` ``||variables:name||`` **=** ``||variables:channel||``.
+## Step 6: Add an If
+Inside ``||radio:on radio received||``, add an ``||logic:if then||`` block.
 
 #### ~ tutorialhint
-- Drag ``||variables:name||`` **off the top of the radio block**. Don't make a new variable.
-- ``||variables:channel||`` is in ``||variables:Variables||`` — it's the name you chose in Step 3.
+The robot is about to ask a question: *"Is this envelope for me?"* An ``||logic:if||`` block asks a question.
 
-In plain words: *"Is this envelope for me?"*
+```blocks
+radio.onReceivedValue(function (name, value) {
+    if (true) {
+    }
+})
+```
+
+## Step 7: Add a Comparison
+From ``||logic:Logic||``, drag the **text** comparison ``||logic:"" = ""||`` into the ``||logic:if||``, replacing **true**.
+
+#### ~ tutorialhint
+Make sure it's the one with **quotes** (`" "`), not the one with **0**. Names are words, not numbers, so we need the text one.
+
+```blocks
+radio.onReceivedValue(function (name, value) {
+    if ("" == "") {
+    }
+})
+```
+
+## Step 8: The Name on the Envelope
+Drag ``||variables:name||`` **off the top of the radio block** into the **left** side of the comparison.
+
+#### ~ tutorialhint
+Click and drag the little ``||variables:name||`` at the top of ``||radio:on radio received||``. Don't make a new variable — this one holds the name on the envelope that just arrived.
+
+```blocks
+radio.onReceivedValue(function (name, value) {
+    if (name == "") {
+    }
+})
+```
+
+## Step 9: Check It's You
+From ``||variables:Variables||``, drag ``||variables:channel||`` into the **right** side.
+
+#### ~ tutorialhint
+``||variables:channel||`` is the name **you** chose in Step 3. Now the robot asks: *"Is this envelope's name **my** name?"* If not, it ignores the message.
 
 ```blocks
 radio.onReceivedValue(function (name, value) {
@@ -129,11 +165,26 @@ radio.onReceivedValue(function (name, value) {
 })
 ```
 
-## Step 7: Forward
-Inside the name check, add ``||logic:if||`` ``||variables:value||`` **= 3** → ``||Kitronik_Move_Motor:move Forward at speed 50||``.
+## Step 10: Check the Number
+Inside the name check, add another ``||logic:if||`` with the **number** comparison ``||logic:0 = 0||``. Drag ``||variables:value||`` off the radio block into the left, and type **3** on the right.
 
 #### ~ tutorialhint
-Drag ``||variables:value||`` off the top of the radio block, like you did with ``||variables:name||``. It's the number inside the envelope.
+This time it's the comparison with **0** — the value inside is a **number**. ``||variables:value||`` comes off the top of the radio block, just like ``||variables:name||`` did.
+
+```blocks
+radio.onReceivedValue(function (name, value) {
+    if (name == channel) {
+        if (value == 3) {
+        }
+    }
+})
+```
+
+## Step 11: Forward
+Inside ``||logic:if value = 3||``, add ``||Kitronik_Move_Motor:move Forward at speed 50||``.
+
+#### ~ tutorialhint
+**3** means forward. The envelope said "go forward", so the robot drives!
 
 ```blocks
 radio.onReceivedValue(function (name, value) {
@@ -145,7 +196,7 @@ radio.onReceivedValue(function (name, value) {
 })
 ```
 
-## Step 8: Spin and Stop
+## Step 12: Spin and Stop
 Click **+** on that ``||logic:if||`` to add **else if** branches:
 - **0** → ``||Kitronik_Move_Motor:spin Left at speed 20||``
 - **2** → ``||Kitronik_Move_Motor:stop||``
@@ -167,7 +218,7 @@ radio.onReceivedValue(function (name, value) {
 })
 ```
 
-## Step 9: Teach It the Rest
+## Step 13: Teach It the Rest
 Add two more **else if** branches:
 - **1** → ``||Kitronik_Move_Motor:spin Right at speed 20||``
 - **4** → ``||Kitronik_Move_Motor:move Reverse at speed 50||``
@@ -202,7 +253,7 @@ The robot part is done. Now the **remote**: making the envelopes.
 
 When the robot gets it, these arrive as ``||variables:name||`` and ``||variables:value||``.
 
-## Step 10: Button A Goes Forward
+## Step 14: Button A Goes Forward
 Add ``||input:on button A pressed||`` → ``||radio:radio send value||`` ``||variables:channel||`` **= 3**.
 
 #### ~ tutorialhint
@@ -214,7 +265,7 @@ input.onButtonPressed(Button.A, function () {
 })
 ```
 
-## Step 11: Spin and Stop Buttons
+## Step 15: Spin and Stop Buttons
 Add two more:
 - ``||input:on button B pressed||`` → send **0** (spin left)
 - ``||input:on button A+B pressed||`` → send **2** (stop)
@@ -234,7 +285,7 @@ input.onButtonPressed(Button.AB, function () {
 })
 ```
 
-## Step 12: Download to Both
+## Step 16: Download to Both
 Download onto **both** micro:bits. Plug one into the Move and switch it on.
 
 #### ~ tutorialhint
@@ -242,7 +293,7 @@ Same code on both. The remote ignores the motor blocks (no Move attached), and n
 
 If nothing happens: check both show the same icon, and the same name is in ``||variables:set channel to||``.
 
-## Step 13: Test Drive
+## Step 17: Test Drive
 Press **A** (forward), **B** (spin), **A+B** (stop).
 
 #### ~ tutorialhint
