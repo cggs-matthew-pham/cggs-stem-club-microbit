@@ -1,0 +1,28 @@
+{
+    "name": "cggs-stem-club-microbit",
+    "description": "STEM Club micro:bit tutorials (Kitronik Move battle bots)",
+    "dependencies": {
+        "core": "*",
+        "radio": "*",
+        "pxt-kitronik-move-motor": "github:kitronikltd/pxt-kitronik-move-motor#v0.4.20"
+    },
+    "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md",
+        "battlebot-1.md",
+        "battlebot-3-robot.md",
+        "battlebot-4-robot.md"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "targetVersions": {
+        "target": "8.0.18",
+        "targetId": "microbit"
+    },
+    "supportedTargets": [
+        "microbit"
+    ],
+    "preferredEditor": "blocksprj"
+}
