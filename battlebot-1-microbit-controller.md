@@ -196,13 +196,31 @@ radio.onReceivedValue(function (name, value) {
 })
 ```
 
-## Step 12: Spin and Stop
-Click **+** on that ``||logic:if||`` to add **else if** branches:
-- **0** → ``||Kitronik_Move_Motor:spin Left at speed 20||``
-- **2** → ``||Kitronik_Move_Motor:stop||``
+## Step 12: Stop for Anything Else
+Click **+** once on the ``||logic:if value = 3||`` block. It adds an **else**. Put ``||Kitronik_Move_Motor:stop||`` inside it.
 
 #### ~ tutorialhint
-Why no arrows on the screen? ``||basic:show arrow||`` takes half a second to draw, and the robot can't listen while it draws. A battle bot needs to be fast!
+**else** means *"for any other number"*. So **2** means stop — and so does any number the robot doesn't know. That's a safe default!
+
+Why no arrows on the screen? ``||basic:show arrow||`` takes half a second to draw, and the robot can't listen while it draws.
+
+```blocks
+radio.onReceivedValue(function (name, value) {
+    if (name == channel) {
+        if (value == 3) {
+            Kitronik_Move_Motor.move(Kitronik_Move_Motor.DriveDirections.Forward, 50)
+        } else {
+            Kitronik_Move_Motor.stop()
+        }
+    }
+})
+```
+
+## Step 13: Spin Left
+Click **+** again. This adds an **else if** above the else. Make it ``||variables:value||`` **= 0** → ``||Kitronik_Move_Motor:spin Left at speed 20||``.
+
+#### ~ tutorialhint
+New **else if** branches always appear **above** the else. That's fine — the else stays last, catching everything else.
 
 ```blocks
 radio.onReceivedValue(function (name, value) {
@@ -211,15 +229,15 @@ radio.onReceivedValue(function (name, value) {
             Kitronik_Move_Motor.move(Kitronik_Move_Motor.DriveDirections.Forward, 50)
         } else if (value == 0) {
             Kitronik_Move_Motor.spin(Kitronik_Move_Motor.SpinDirections.Left, 20)
-        } else if (value == 2) {
+        } else {
             Kitronik_Move_Motor.stop()
         }
     }
 })
 ```
 
-## Step 13: Teach It the Rest
-Add two more **else if** branches:
+## Step 14: Teach It the Rest
+Click **+** twice more for two more **else if** branches:
 - **1** → ``||Kitronik_Move_Motor:spin Right at speed 20||``
 - **4** → ``||Kitronik_Move_Motor:move Reverse at speed 50||``
 
@@ -233,12 +251,12 @@ radio.onReceivedValue(function (name, value) {
             Kitronik_Move_Motor.move(Kitronik_Move_Motor.DriveDirections.Forward, 50)
         } else if (value == 0) {
             Kitronik_Move_Motor.spin(Kitronik_Move_Motor.SpinDirections.Left, 20)
-        } else if (value == 2) {
-            Kitronik_Move_Motor.stop()
         } else if (value == 1) {
             Kitronik_Move_Motor.spin(Kitronik_Move_Motor.SpinDirections.Right, 20)
         } else if (value == 4) {
             Kitronik_Move_Motor.move(Kitronik_Move_Motor.DriveDirections.Reverse, 50)
+        } else {
+            Kitronik_Move_Motor.stop()
         }
     }
 })
@@ -253,7 +271,7 @@ The robot part is done. Now the **remote**: making the envelopes.
 
 When the robot gets it, these arrive as ``||variables:name||`` and ``||variables:value||``.
 
-## Step 14: Button A Goes Forward
+## Step 15: Button A Goes Forward
 Add ``||input:on button A pressed||`` → ``||radio:radio send value||`` ``||variables:channel||`` **= 3**.
 
 #### ~ tutorialhint
@@ -265,7 +283,7 @@ input.onButtonPressed(Button.A, function () {
 })
 ```
 
-## Step 15: Spin and Stop Buttons
+## Step 16: Spin and Stop Buttons
 Add two more:
 - ``||input:on button B pressed||`` → send **0** (spin left)
 - ``||input:on button A+B pressed||`` → send **2** (stop)
@@ -285,7 +303,7 @@ input.onButtonPressed(Button.AB, function () {
 })
 ```
 
-## Step 16: Download to Both
+## Step 17: Download to Both
 Download onto **both** micro:bits. Plug one into the Move and switch it on.
 
 #### ~ tutorialhint
@@ -293,7 +311,7 @@ Same code on both. The remote ignores the motor blocks (no Move attached), and n
 
 If nothing happens: check both show the same icon, and the same name is in ``||variables:set channel to||``.
 
-## Step 17: Test Drive
+## Step 18: Test Drive
 Press **A** (forward), **B** (spin), **A+B** (stop).
 
 #### ~ tutorialhint
