@@ -6,8 +6,8 @@ Kept separate from the class tutorial repos, so changes here can't affect class 
 
 ## Battle bots, in order
 
-1. Remote control robot (micro:bit remote and robot): https://makecode.microbit.org/#tutorial:github:cggs-matthew-pham/cggs-stem-club-microbit/battlebot-1
-2. Arcade controller: https://arcade.makecode.com/#tutorial:github:cggs-matthew-pham/cggs-stem-club-arcade/battlebot-2-controller
+1. Remote control robot (micro:bit remote and robot): https://makecode.microbit.org/#tutorial:github:cggs-matthew-pham/cggs-stem-club-microbit/battlebot-1-microbit-controller
+2. Arcade controller: https://arcade.makecode.com/#tutorial:github:cggs-matthew-pham/cggs-stem-club-arcade/battlebot-2-arcade-controller
 3. Safety stop, robot: https://makecode.microbit.org/#tutorial:github:cggs-matthew-pham/cggs-stem-club-microbit/battlebot-3-robot
    then controller: https://arcade.makecode.com/#tutorial:github:cggs-matthew-pham/cggs-stem-club-arcade/battlebot-3-controller
 4. Battle upgrades, robot: https://makecode.microbit.org/#tutorial:github:cggs-matthew-pham/cggs-stem-club-microbit/battlebot-4-robot

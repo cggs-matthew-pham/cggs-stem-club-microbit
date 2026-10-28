@@ -306,4 +306,4 @@ Remote and robot agree on what each number means. That's called a **protocol** â
 
 Next: drive it with an **Arcade controller** in **Battle Bot 2**:
 
-https://arcade.makecode.com/#tutorial:github:cggs-matthew-pham/cggs-stem-club-arcade/battlebot-2-controller
+https://arcade.makecode.com/#tutorial:github:cggs-matthew-pham/cggs-stem-club-arcade/battlebot-2-arcade-controller
