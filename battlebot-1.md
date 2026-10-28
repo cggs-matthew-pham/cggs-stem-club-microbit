@@ -1,10 +1,10 @@
+### @explicitHints true
+
 # Battle Bot 1: Remote Control Robot
 
 ```template
 let channel = ""
-// CHANGE THIS: your robot's icon - duck, heart, ghost, rabbit, giraffe or snake
 channel = "duck"
-// CHANGE THIS: your team's group number
 radio.setGroup(101)
 basic.showIcon(IconNames.Duck)
 ```
@@ -16,17 +16,24 @@ You'll write **one program** and put it on **two** micro:bits:
 - one plugs into your Move — the **robot**
 - one you hold — the **remote**
 
-Same code on both. The remote's buttons send commands; the robot listens and moves.
+The remote's buttons send messages. The robot listens and moves.
 
-## Step 1: Choose Your Group and Icon
-Your template has three things to change:
-- ``||radio:radio set group||`` — your **team's group number** (check with your teacher that nobody else is using it)
-- ``||basic:show icon||`` — pick your robot's **icon**. It stays on the screen so everyone can tell the robots apart
-- ``||variables:set channel to||`` — type your icon's **name**, e.g. **duck**
+Stuck on a step? Click the **lightbulb** for a hint.
 
-Pick one of these six icons. They match the ready-made pictures on the Arcade controller later, so your screen will show the same picture as your robot.
+## Step 1: Group Number
+In ``||radio:radio set group||``, change **101** to your **team's group number**.
 
-| Pick this in show icon | Type this name |
+#### ~ tutorialhint
+Your teacher will help you pick a number nobody else in the room is using. Robots in different groups can't hear each other.
+
+```blocks
+radio.setGroup(101)
+```
+
+## Choose Your Robot's Icon @showdialog
+Every robot shows an **icon**, so everyone can tell the robots apart. Pick one:
+
+| Icon | Name |
 |---|---|
 | Duck | duck |
 | Heart | heart |
@@ -35,47 +42,50 @@ Pick one of these six icons. They match the ready-made pictures on the Arcade co
 | Giraffe | giraffe |
 | Snake | snake |
 
-Each team in the same group needs a **different** icon.
+Each team in your group needs a **different** icon. These six match the pictures on the Arcade controller later.
 
-**Want your own icon?** Instead of ``||basic:show icon||``, use ``||basic:show leds||`` and draw your own 5×5 picture. Then make up a name for it — **8 letters or fewer**, no spaces. Check with your teacher that nobody else has the same one.
+## Step 2: Show Your Icon
+In ``||basic:show icon||``, choose **your** icon.
 
-Why a group **and** a name? The **group** keeps teams apart. The **name** is a second check — even if another team picks the same group by mistake, your robot only obeys messages with **its** name.
+#### ~ tutorialhint
+**Want your own icon?** Swap ``||basic:show icon||`` for ``||basic:show leds||`` and draw a 5×5 picture. Then make up a name for it in the next step (8 letters or fewer, no spaces).
+
+```blocks
+basic.showIcon(IconNames.Duck)
+```
+
+## Step 3: Your Robot's Name
+In ``||variables:set channel to||``, type your icon's **name**, like **duck**.
+
+#### ~ tutorialhint
+Use small letters and spell it exactly. Your remote and robot must have the **same** name.
+
+```blocks
+let channel = ""
+channel = "duck"
+```
+
+## Step 4: Team Colour
+Open ``||Kitronik_Move_Motor:Move Motor||`` → **Lights**. Add ``||Kitronik_Move_Motor:set moveMotorZIP to MOVE Motor with 4 ZIP LEDs||`` and ``||Kitronik_Move_Motor:show color red||`` to the end of ``||basic:on start||``.
+
+#### ~ tutorialhint
+The lights on top of your Move show your **team**: **red** or **blue**. Your teacher will tell you which. You don't need to make the variable — the block comes with it.
 
 ```blocks
 let channel = ""
 channel = "duck"
 radio.setGroup(101)
 basic.showIcon(IconNames.Duck)
-```
-
-## Step 2: Team Colour
-Your Move has four colour lights on top. Use them to show which **team** your robot is on — easy to see from across the soccer pitch or sumo ring.
-
-Open ``||Kitronik_Move_Motor:Move Motor||`` and click **Lights**. Add these to the end of ``||basic:on start||``:
-- ``||variables:set moveMotorZIP to||`` ``||Kitronik_Move_Motor:MOVE Motor with 4 ZIP LEDs||`` — you don't need to make the variable, this block comes with it
-- ``||Kitronik_Move_Motor:moveMotorZIP show color red||``
-
-Your teacher will tell you which team you're on: **red** or **blue**. To swap teams later, just change the colour and download again.
-
-```blocks
-let channel = ""
-channel = "duck"
-radio.setGroup(101)
 let moveMotorZIP = Kitronik_Move_Motor.createMoveMotorZIPLED(4)
 moveMotorZIP.showColor(Kitronik_Move_Motor.colors(Kitronik_Move_Motor.ZipLedColors.Red))
-basic.showIcon(IconNames.Duck)
 ```
 
-## Step 3: How a Message Works
-Every radio message is like an **envelope**:
-- On the **front** is a **name** — who the message is for
-- **Inside** is a **value** — a number that says what to do
+## How a Message Works @showdialog
+A radio message is like an **envelope**:
+- On the **front** is a **name** — who it's for
+- **Inside** is a **value** — a number for what to do
 
-Your remote will send envelopes with **your robot's name** on the front and a **number** inside. Your robot will check the name, then open it and read the number.
-
-Robots don't understand words like "forward", so the number stands for a move. Here is the agreement between remote and robot:
-
-| Number | Move |
+| Value | Move |
 |---|---|
 | 0 | Spin left |
 | 1 | Spin right |
@@ -83,39 +93,60 @@ Robots don't understand words like "forward", so the number stands for a move. H
 | 3 | Forward |
 | 4 | Reverse |
 
-There's no code in this step. Keep this table — every Battle Bot tutorial uses it.
+So **duck** on the front with **3** inside means: *"duck, go forward!"*
 
-So an envelope that says **duck** on the front with **3** inside means: *"duck, go forward!"*
+Your robot will check the name, then read the number.
 
-## Step 4: Check the Name on the Envelope
-From ``||radio:Radio||``, drag ``||radio:on radio received name value||``.
+## Step 5: Receive a Message
+From ``||radio:Radio||``, drag out ``||radio:on radio received name value||``.
 
-Look at the top of this block. It comes with two of its own variables: ``||variables:name||`` and ``||variables:value||``. They hold the envelope that just arrived — the **name** on the front and the **value** inside.
+#### ~ tutorialhint
+This block runs every time an envelope arrives. It comes with ``||variables:name||`` (the front) and ``||variables:value||`` (inside).
 
-Now add an ``||logic:if||`` block inside it, with an ``||logic:=||`` comparison:
-- On the **left**, put ``||variables:name||``. **Drag it straight off the top of the radio block** — don't make a new variable called name.
-- On the **right**, put ``||variables:channel||`` from ``||variables:Variables||``. That's the name **you** chose in Step 1.
+```blocks
+radio.onReceivedValue(function (name, value) {
+})
+```
 
-In plain words: *"Is the name on this envelope **my** name?"* If it is, the robot does what's inside. If not, the message was for another robot, so it ignores it.
+## Step 6: Check the Name
+Inside it, add ``||logic:if||`` ``||variables:name||`` **=** ``||variables:channel||``.
+
+#### ~ tutorialhint
+- Drag ``||variables:name||`` **off the top of the radio block**. Don't make a new variable.
+- ``||variables:channel||`` is in ``||variables:Variables||`` — it's the name you chose in Step 3.
+
+In plain words: *"Is this envelope for me?"*
 
 ```blocks
 radio.onReceivedValue(function (name, value) {
     if (name == channel) {
-    	
     }
 })
 ```
 
-## Step 5: Open the Envelope
-The name matched, so now read the number inside. That's ``||variables:value||`` — drag it off the top of the radio block, just like you did with ``||variables:name||``.
+## Step 7: Forward
+Inside the name check, add ``||logic:if||`` ``||variables:value||`` **= 3** → ``||Kitronik_Move_Motor:move Forward at speed 50||``.
 
-Inside the name check, add an ``||logic:if else if||`` that checks ``||variables:value||``:
+#### ~ tutorialhint
+Drag ``||variables:value||`` off the top of the radio block, like you did with ``||variables:name||``. It's the number inside the envelope.
 
-- **3** → ``||Kitronik_Move_Motor:move Forward at speed 50||``
+```blocks
+radio.onReceivedValue(function (name, value) {
+    if (name == channel) {
+        if (value == 3) {
+            Kitronik_Move_Motor.move(Kitronik_Move_Motor.DriveDirections.Forward, 50)
+        }
+    }
+})
+```
+
+## Step 8: Spin and Stop
+Click **+** on that ``||logic:if||`` to add **else if** branches:
 - **0** → ``||Kitronik_Move_Motor:spin Left at speed 20||``
 - **2** → ``||Kitronik_Move_Motor:stop||``
 
-Why no arrows on the screen? Blocks like ``||basic:show arrow||`` take over half a second to draw. While the robot is drawing, it **can't listen** — so your robot would be slow to react. A battle bot needs to be fast!
+#### ~ tutorialhint
+Why no arrows on the screen? ``||basic:show arrow||`` takes half a second to draw, and the robot can't listen while it draws. A battle bot needs to be fast!
 
 ```blocks
 radio.onReceivedValue(function (name, value) {
@@ -131,12 +162,13 @@ radio.onReceivedValue(function (name, value) {
 })
 ```
 
-## Step 6: Teach It the Rest
-Your remote will only send three commands — but teach the robot **all five** anyway. You'll be glad later!
-
-Add two more ``||logic:else if||`` branches:
+## Step 9: Teach It the Rest
+Add two more **else if** branches:
 - **1** → ``||Kitronik_Move_Motor:spin Right at speed 20||``
 - **4** → ``||Kitronik_Move_Motor:move Reverse at speed 50||``
+
+#### ~ tutorialhint
+Your remote can only send three moves, but teach the robot all five anyway. You'll need them in Battle Bot 2!
 
 ```blocks
 radio.onReceivedValue(function (name, value) {
@@ -156,20 +188,34 @@ radio.onReceivedValue(function (name, value) {
 })
 ```
 
-## Step 7: The Remote's Buttons
-Now the remote side: making the envelopes.
+## Now the Remote @showdialog
+The robot part is done. Now the **remote**: making the envelopes.
 
-``||radio:radio send value||`` has two spaces, which match the two parts of the envelope:
-- The **first** space is the **name** on the front. Put ``||variables:channel||`` here, so every envelope has your robot's name on it.
-- The **second** space is the **value** inside — the number for the move.
+``||radio:radio send value||`` has two spaces:
+- **First:** the **name** on the front — use ``||variables:channel||``
+- **Second:** the **value** inside — the move's number
 
-When your robot receives it, the first space arrives as ``||variables:name||`` and the second as ``||variables:value||``. That's how the remote and robot fit together.
+When the robot gets it, these arrive as ``||variables:name||`` and ``||variables:value||``.
 
-From ``||input:Input||``, add three button blocks:
+## Step 10: Button A Goes Forward
+Add ``||input:on button A pressed||`` → ``||radio:radio send value||`` ``||variables:channel||`` **= 3**.
 
-- ``||input:on button A pressed||`` → ``||radio:radio send value||`` ``||variables:channel||`` = **3** (forward)
-- ``||input:on button B pressed||`` → ``||radio:radio send value||`` ``||variables:channel||`` = **0** (spin left)
-- ``||input:on button A+B pressed||`` → ``||radio:radio send value||`` ``||variables:channel||`` = **2** (stop)
+#### ~ tutorialhint
+``||variables:channel||`` is in ``||variables:Variables||``. Drop it into the first space of the send block.
+
+```blocks
+input.onButtonPressed(Button.A, function () {
+    radio.sendValue(channel, 3)
+})
+```
+
+## Step 11: Spin and Stop Buttons
+Add two more:
+- ``||input:on button B pressed||`` → send **0** (spin left)
+- ``||input:on button A+B pressed||`` → send **2** (stop)
+
+#### ~ tutorialhint
+Right-click your button A block and choose **Duplicate**, then change the button and the number.
 
 ```blocks
 input.onButtonPressed(Button.A, function () {
@@ -183,28 +229,25 @@ input.onButtonPressed(Button.AB, function () {
 })
 ```
 
-## Step 8: Download to Both
-Download and flash the code onto **both** micro:bits. Plug one into the Move and switch it on.
+## Step 12: Download to Both
+Download onto **both** micro:bits. Plug one into the Move and switch it on.
 
-Test with the remote:
-- **A** — the robot drives forward and **keeps going**
-- **B** — it spins left and **keeps spinning**
-- **A+B** — it stops
+#### ~ tutorialhint
+Same code on both. The remote ignores the motor blocks (no Move attached), and nobody presses the robot's buttons.
 
-If nothing happens, check both micro:bits show the same icon, and the same name is typed in ``||variables:set channel to||``.
+If nothing happens: check both show the same icon, and the same name is in ``||variables:set channel to||``.
 
-## Step 9: Drive It
-Try to drive your robot to a target and stop on it. Then try a game of soccer.
+## Step 13: Test Drive
+Press **A** (forward), **B** (spin), **A+B** (stop).
 
-While you play, notice:
-- What's hard about stopping in the right place?
-- Which moves do you wish you had?
-
-Your robot already knows five moves — the remote just can't send them all. That's what the next tutorial fixes. Open **Battle Bot 2** in MakeCode Arcade:
-
-https://arcade.makecode.com/#tutorial:github:cggs-matthew-pham/cggs-stem-club-arcade/battlebot-2-controller
+#### ~ tutorialhint
+The robot **keeps going** until you send the next move. Try driving to a target and stopping on it. What's tricky? Which moves do you wish you had?
 
 ## Complete! @showdialog
-You've built a radio-controlled robot.
+You've built a radio-controlled robot!
 
-The key idea is a **protocol**: remote and robot agree on what each number means. As long as they agree, you can swap in a completely different remote — which is exactly what you'll do next, with an **Arcade controller**.
+Remote and robot agree on what each number means. That's called a **protocol** — and it means you can swap in a whole new remote.
+
+Next: drive it with an **Arcade controller** in **Battle Bot 2**:
+
+https://arcade.makecode.com/#tutorial:github:cggs-matthew-pham/cggs-stem-club-arcade/battlebot-2-controller
